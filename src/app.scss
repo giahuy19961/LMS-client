@@ -1,0 +1,9 @@
+@import url(./styles/_variables.scss);
+@import url(./styles/_reset.scss);
+
+@import url(../src/components/Header/styles/_header.scss);
+@import url(../src/pages/HomePage/styles/_home.scss);
+@import url(../src/pages/ContactPage/style/_contact.scss);
+@import url(../src/components/Footer/styles/_footer.scss);
+
+@import url(./styles/_mediaquery.scss);

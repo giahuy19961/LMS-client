@@ -1,0 +1,32 @@
+.home {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.home .content {
+    flex: 1 1 40rem;
+}
+
+.home .image {
+    flex: 1 1 40rem;
+}
+
+.home .image img {
+    width: 100%;
+}
+
+.home .content h3 {
+    color: transparent;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-size: 4rem;
+}
+
+.home .content p {
+    padding: 3rem 0;
+    font-size: 1.9rem;
+    color: #666;
+}

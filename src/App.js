@@ -1,24 +1,77 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./app.scss";
+import { Route, Switch } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import AuthPage from "./pages/AuthPage";
+import ContactPage from "./pages/ContactPage";
+import PrivateRoute from "./routes/PrivateRoute";
+import ResignPage from "./pages/Course";
+import DefaultLayout from "./layout/defaultLayout";
+import SchoolFeePage from "./pages/SchoolFeePage";
+import CoursePage from "./pages/Course";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route
+        path='/login'
+        exact='false'
+        render={() => <AuthPage type='login' />}
+      />
+
+      <Route
+        path='/'
+        exact='false'
+        render={() => (
+          <DefaultLayout>
+            <HomePage />
+          </DefaultLayout>
+        )}
+      />
+
+      {/* <Route
+        path='/register'
+        exact='false'
+        render={() => <AuthPage type='register' />}
+      /> */}
+      <Route
+        path='/contact'
+        render={() => (
+          <DefaultLayout>
+            <ContactPage />
+          </DefaultLayout>
+        )}
+      />
+      <PrivateRoute
+        path='/course'
+        exact='false'
+        render={() => (
+          <DefaultLayout>
+            <CoursePage />
+          </DefaultLayout>
+        )}
+      />
+      <PrivateRoute
+        path='/course/resign'
+        exact='false'
+        render={() => (
+          <DefaultLayout>
+            <ResignPage />
+          </DefaultLayout>
+        )}
+      />
+      <PrivateRoute
+        path='/fee'
+        exact='false'
+        render={() => (
+          <DefaultLayout>
+            <SchoolFeePage />
+          </DefaultLayout>
+        )}
+      />
+      <Route path='*' component={NotFound} />
+    </Switch>
   );
 }
 

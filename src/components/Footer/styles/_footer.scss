@@ -1,0 +1,54 @@
+.footer {
+}
+
+.footer .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.footer .box-container .box {
+    flex: 1 1 20rem;
+}
+
+.footer .box-container .box h3 {
+    font-size: 2.5rem;
+    color: var(--violet);
+    padding: 0.7rem 0;
+}
+
+.footer .box-container .box p {
+    font-size: 1.5rem;
+    color: #666;
+    padding: 0.7rem 0;
+}
+
+.footer .box-container .box a {
+    display: block;
+    font-size: 1.5rem;
+    color: #666;
+    padding: 0.7rem 0;
+}
+
+.footer .box-container .box a:hover {
+    color: var(--pink);
+}
+
+.footer .box-container .box p i {
+    padding-right: 0.5rem;
+    color: var(--pink);
+}
+
+.footer .credit {
+    font-size: 2rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    padding-top: 2rem;
+    text-align: center;
+    border-top: 0.1rem solid rgba(0, 0, 0, 0.1);
+    color: #666;
+}
+
+.footer .credit span {
+    color: var(--pink);
+}
