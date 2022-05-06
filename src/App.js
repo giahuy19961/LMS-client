@@ -45,7 +45,6 @@ function App() {
       />
       <PrivateRoute
         path='/course'
-        exact='false'
         render={() => (
           <DefaultLayout>
             <CoursePage />

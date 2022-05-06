@@ -11,27 +11,13 @@ export const userLoginApi = createAsyncThunk(
         username: username,
         password: password,
       });
-
-      const { token } = response.data;
-      // const encodedToken = jwt.sign(
-      //   {
-      //     username: username,
-      //     token,
-      //   },
-      //   process.env.JWT_SECRET_KEY,
-      //   { algorithm: "RS256" },
-      //   { buffer: false },
-      //   { crypto: false }
-      // );
-
+      const { token } = response.data.data;
       localStorage.setItem("access_token", token);
       swal({ title: "Login successfully", icon: "success" }).then(() => {
         history.push("/");
       });
 
-      // localStorage.setItem("access_token", access_token);
-
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -44,12 +30,15 @@ const authSlice = createSlice({
     loading: false,
     token: null,
     error: null,
+    userInfo: null,
   },
   reducers: {
     userLogout: (state, action, history) => {
       state.token = null;
       state.error = null;
+      state.userInfo = null;
       localStorage.removeItem("access_token");
+      localStorage.removeItem("root");
     },
   },
   extraReducers: {
@@ -58,8 +47,8 @@ const authSlice = createSlice({
     },
     [userLoginApi.fulfilled]: (state, action) => {
       state.loading = false;
-      state.token = action.payload;
-
+      state.token = action.payload.token;
+      state.userInfo = action.payload.info;
       state.error = null;
     },
     [userLoginApi.rejected]: (state, action) => {

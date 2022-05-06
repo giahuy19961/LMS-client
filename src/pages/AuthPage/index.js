@@ -1,20 +1,13 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
   Checkbox,
   Dialog,
   DialogActions,
-  DialogContent,
-  DialogContentText,
   FormControlLabel,
   Grid,
-  IconButton,
-  InputAdornment,
-  TextField,
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { LoadingButton } from "@mui/lab";
 import React, { useState } from "react";
 import {
   Controller,
@@ -24,6 +17,7 @@ import {
 } from "react-hook-form";
 // import logo from "../../assets/ecoe_logo_v.svg";
 import background from "../../assets/image/login_background.png";
+import { Redirect } from "react-router";
 // import {
 //   sendPasswordReset,
 //   signInWithEmailPassword,
@@ -79,6 +73,7 @@ const AuthPage = ({ type }) => {
 
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  let token = localStorage.getItem("access_token");
 
   const classes = useStyles();
   // const router = useHistory();
@@ -102,6 +97,7 @@ const AuthPage = ({ type }) => {
     handleSubmit,
     formState: { errors },
   } = methods;
+  if (token) return <Redirect to='/' />;
 
   return (
     <FormProvider {...methods}>

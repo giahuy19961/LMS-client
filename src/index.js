@@ -3,17 +3,20 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { Provider } from "react-redux";
-import { store } from "app/store";
+import { store, persistor } from "app/store";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
-import { CssBaseline } from "@mui/material";
+import { CircularProgress, CssBaseline } from "@mui/material";
+import { PersistGate } from "redux-persist/lib/integration/react";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Provider store={store}>
-        <CssBaseline />
-        <App />
+        <PersistGate loading={<CircularProgress />} persistor={persistor}>
+          <CssBaseline />
+          <App />
+        </PersistGate>
       </Provider>
     </Router>
   </React.StrictMode>,
