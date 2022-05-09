@@ -7,7 +7,9 @@ import {
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { enrolmentsApi } from "app/reducers/enrolmentsReducer";
 import { listCourseApi } from "app/reducers/listCourseReducer";
+import CourseCard from "components/Card/CourseCard";
 import _ from "lodash";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,8 +42,13 @@ const CoursePage = () => {
   const { loading: coursesLoading, data: courses } = useSelector(
     (state) => state.listCourseReducer
   );
+  const { loading: enrolmentsLoading, data: enrolments } = useSelector(
+    (state) => state.enrolmentsReducer
+  );
+  const { userInfo } = useSelector((state) => state.authReducer);
   const [detailCourse, setDetailCourse] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [refetch, setRefetch] = useState({});
 
   const getOptionsCourse = (courses) => {
     return _.map(courses, (course) => ({
@@ -74,28 +81,49 @@ const CoursePage = () => {
     }
   }, [course]);
 
+  const registerSubjectApi = async ({ courseid, userid }) => {
+    try {
+      const res = await courseService.registerSubject({ courseid, userid });
+      console.log(res);
+      swal({ title: res?.data.message, icon: "success" }).then((res) => {
+        setRefetch({});
+        setDetailCourse(null);
+      });
+    } catch (error) {
+      swal({ title: error.message, icon: "error" });
+      console.log(error);
+    }
+  };
+
+  const handleRegister = () => {
+    registerSubjectApi({ userid: userInfo.id, courseid: detailCourse.id });
+  };
+
   useEffect(() => {
     dispatch(listCourseApi());
-  }, []);
+    if (userInfo) {
+      dispatch(enrolmentsApi({ userid: userInfo?.id }));
+    }
+  }, [refetch]);
 
-  if (coursesLoading) return <CircularProgress />;
+  if (coursesLoading || enrolmentsLoading) return <CircularProgress />;
 
   return (
-    <Grid container flexDirection='column'>
-      <Typography fontSize='32px' fontWeight={500}>
+    <Grid container flexDirection="column">
+      <Typography fontSize="32px" fontWeight={500}>
         Đăng ký môn học
       </Typography>
       <Paper>
         <Grid container>
-          <Grid item lg={3} padding='25px'>
-            <Typography fontSize='24px'>Lịch đăng ký</Typography>
-            <Typography fontSize='12px'>
+          <Grid item lg={3} padding="25px">
+            <Typography fontSize="24px">Lịch đăng ký</Typography>
+            <Typography fontSize="12px">
               Từ ngày 23/03/2022 đến ngày 23/03/2022
             </Typography>
           </Grid>
           <Grid item container lg={9} className={classes.rightBar}>
-            <Grid item xs={12} padding={"5px 10px"} sx={{ minHeight: "400px" }}>
-              <Typography fontSize='16px' fontWeight='bold'>
+            <Grid item xs={12} padding={"5px 10px"} sx={{ minHeight: "200px" }}>
+              <Typography fontSize="16px" fontWeight="bold">
                 Buớc 1: Chọn môn học đăng ký
               </Typography>
               <Autocomplete
@@ -108,16 +136,46 @@ const CoursePage = () => {
                 {loading ? (
                   <CircularProgress />
                 ) : (
-                  <Grid item sx={{ padding: "5px 10px" }}>
-                    Môn học: {detailCourse?.fullname}
+                  <Grid item container sx={{ padding: "5px 10px" }}>
+                    {detailCourse && (
+                      <CourseCard
+                        title={detailCourse?.shortname}
+                        description={detailCourse?.fullname}
+                        onSubmit={handleRegister}
+                      />
+                    )}
                   </Grid>
                 )}
               </Grid>
             </Grid>
-            <Grid item xs={12} padding={"5px 10px"} sx={{ minHeight: "200px" }}>
-              <Typography fontSize='16px' fontWeight='bold'>
-                Danh sách môn học đã đăng ký
+            <Grid
+              item
+              container
+              xs={12}
+              padding={"5px 10px"}
+              sx={{ minHeight: "200px" }}
+            >
+              <Typography
+                fontSize="16px"
+                fontWeight="bold"
+                paddingBottom={"20px"}
+              >
+                Bước 2 :Danh sách môn học đã đăng ký
               </Typography>
+              <Grid
+                container
+                gap={2}
+                sx={{ maxHeight: "400px", overflowY: "auto" }}
+              >
+                {!_.isEmpty(enrolments) &&
+                  _.map(enrolments, (enrolment, index) => (
+                    <CourseCard
+                      key={index}
+                      title={enrolment?.shortname}
+                      description={enrolment?.fullname}
+                    />
+                  ))}
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
