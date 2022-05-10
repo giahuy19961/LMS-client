@@ -96,7 +96,17 @@ const CoursePage = () => {
   };
 
   const handleRegister = () => {
-    registerSubjectApi({ userid: userInfo.id, courseid: detailCourse.id });
+    let isExistCourse = !_.isEmpty(
+      _.filter(enrolments, (item) => item.id === detailCourse.id)
+    );
+    if (isExistCourse) {
+      swal({
+        title: "Khóa học này đã được đăng ký vui lòng chọn khóa khác",
+        icon: "error",
+      });
+    } else {
+      registerSubjectApi({ userid: userInfo.id, courseid: detailCourse.id });
+    }
   };
 
   useEffect(() => {
@@ -109,21 +119,21 @@ const CoursePage = () => {
   if (coursesLoading || enrolmentsLoading) return <CircularProgress />;
 
   return (
-    <Grid container flexDirection="column">
-      <Typography fontSize="32px" fontWeight={500}>
+    <Grid container flexDirection='column'>
+      <Typography fontSize='32px' fontWeight={500}>
         Đăng ký môn học
       </Typography>
       <Paper>
         <Grid container>
-          <Grid item lg={3} padding="25px">
-            <Typography fontSize="24px">Lịch đăng ký</Typography>
-            <Typography fontSize="12px">
+          <Grid item lg={3} padding='25px'>
+            <Typography fontSize='24px'>Lịch đăng ký</Typography>
+            <Typography fontSize='12px'>
               Từ ngày 23/03/2022 đến ngày 23/03/2022
             </Typography>
           </Grid>
           <Grid item container lg={9} className={classes.rightBar}>
             <Grid item xs={12} padding={"5px 10px"} sx={{ minHeight: "200px" }}>
-              <Typography fontSize="16px" fontWeight="bold">
+              <Typography fontSize='16px' fontWeight='bold'>
                 Buớc 1: Chọn môn học đăng ký
               </Typography>
               <Autocomplete
@@ -142,6 +152,7 @@ const CoursePage = () => {
                         title={detailCourse?.shortname}
                         description={detailCourse?.fullname}
                         onSubmit={handleRegister}
+                        register={true}
                       />
                     )}
                   </Grid>
@@ -156,8 +167,8 @@ const CoursePage = () => {
               sx={{ minHeight: "200px" }}
             >
               <Typography
-                fontSize="16px"
-                fontWeight="bold"
+                fontSize='16px'
+                fontWeight='bold'
                 paddingBottom={"20px"}
               >
                 Bước 2 :Danh sách môn học đã đăng ký
@@ -173,6 +184,7 @@ const CoursePage = () => {
                       key={index}
                       title={enrolment?.shortname}
                       description={enrolment?.fullname}
+                      register={false}
                     />
                   ))}
               </Grid>
