@@ -10,19 +10,20 @@ import DefaultLayout from "./layout/defaultLayout";
 import SchoolFeePage from "./pages/SchoolFeePage";
 import CoursePage from "./pages/Course";
 import NotFound from "./components/NotFound";
+import UserPage from "pages/UserPage";
 
 function App() {
   return (
     <Switch>
       <Route
-        path='/login'
-        exact='false'
-        render={() => <AuthPage type='login' />}
+        path="/login"
+        exact="false"
+        render={() => <AuthPage type="login" />}
       />
 
       <Route
-        path='/'
-        exact='false'
+        path="/"
+        exact="false"
         render={() => (
           <DefaultLayout>
             <HomePage />
@@ -36,7 +37,7 @@ function App() {
         render={() => <AuthPage type='register' />}
       /> */}
       <Route
-        path='/contact'
+        path="/contact"
         render={() => (
           <DefaultLayout>
             <ContactPage />
@@ -44,7 +45,7 @@ function App() {
         )}
       />
       <PrivateRoute
-        path='/course'
+        path="/course"
         render={() => (
           <DefaultLayout>
             <CoursePage />
@@ -52,8 +53,8 @@ function App() {
         )}
       />
       <PrivateRoute
-        path='/course/resign'
-        exact='false'
+        path="/course/resign"
+        exact="false"
         render={() => (
           <DefaultLayout>
             <ResignPage />
@@ -61,15 +62,26 @@ function App() {
         )}
       />
       <PrivateRoute
-        path='/fee'
-        exact='false'
+        path="/fee"
+        exact="false"
         render={() => (
           <DefaultLayout>
             <SchoolFeePage />
           </DefaultLayout>
         )}
       />
-      <Route path='*' component={NotFound} />
+
+      {/* Userpages */}
+      <PrivateRoute
+        path="/me"
+        exact={false}
+        render={() => (
+          <DefaultLayout>
+            <UserPage />
+          </DefaultLayout>
+        )}
+      />
+      <Route path="*" component={NotFound} />
     </Switch>
   );
 }
