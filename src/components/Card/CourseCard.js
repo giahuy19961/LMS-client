@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-const CourseCard = ({ url, description, title, onSubmit }) => {
+const CourseCard = ({ url, description, title, onSubmit, register }) => {
   const classes = useStyles();
   return (
     <Grid className={classes.root} item container xs={12} md={10} gap={3}>
@@ -38,26 +38,28 @@ const CourseCard = ({ url, description, title, onSubmit }) => {
         ></img>
       </Grid>
 
-      <Grid container direction="column" className={classes.content} gap={2}>
+      <Grid container direction='column' className={classes.content} gap={2}>
         <Grid item>
-          <Typography fontSize="18px" fontWeight="bold">
+          <Typography fontSize='18px' fontWeight='bold'>
             {title}
           </Typography>
         </Grid>
         <Grid item>
-          <Typography fontSize="16px">{description}</Typography>
+          <Typography fontSize='16px'>{description}</Typography>
         </Grid>
         <Grid item>
-          <LoadingButton
-            loading={false}
-            variant="contained"
-            color="success"
-            onClick={onSubmit}
-            startIcon={<AddCircleOutline size="large" />}
-            sx={{ textTransform: "unset", fontSize: "16px" }}
-          >
-            Đăng ký
-          </LoadingButton>
+          {register && (
+            <LoadingButton
+              loading={false}
+              variant='contained'
+              color='success'
+              onClick={onSubmit}
+              startIcon={<AddCircleOutline size='large' />}
+              sx={{ textTransform: "unset", fontSize: "16px" }}
+            >
+              Đăng ký
+            </LoadingButton>
+          )}
         </Grid>
       </Grid>
     </Grid>
