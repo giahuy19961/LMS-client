@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import {
   Logout,
   Notifications as NotificationsIcon,
@@ -22,15 +21,11 @@ import { makeStyles } from "@mui/styles";
 import _ from "lodash";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import slugs from "../constants/slugs";
-import { user } from "../constants/user";
-import { GET_PROFILE } from "../graphql/schemas/account/accountQueries";
-import { GET_COUNT_HOME_PAGE } from "../graphql/schemas/notification";
+
 import MainMenu from "./MainMenu.js";
 import SearchText from "./SearchText";
-import { onMessageListener } from "../firebase/config/firebase";
-import ConfirmModal from "../components/ConfirmModal";
-import theme from "../styles/theme";
+
+import theme from "../Layouts/styles/theme";
 
 const drawerWidth = 314;
 
@@ -106,8 +101,6 @@ const Layout = ({ searchText, setSearchText, auth, setAuth, children }) => {
   const [showModal, setShowModal] = useState(false);
   const [notiNumber, setNotiNumber] = useState(0);
 
-  const account = user.getValue("id");
-
   const history = useHistory();
   const classes = useStyles(theme);
 
@@ -115,52 +108,12 @@ const Layout = ({ searchText, setSearchText, auth, setAuth, children }) => {
     setOpen(!open);
   };
 
-  const { data } = useQuery(GET_PROFILE, {
-    variables: {
-      id: JSON.parse(localStorage.getItem("userInfo"))?.id,
-    },
-  });
-
-  const { data: dataCounting } = useQuery(GET_COUNT_HOME_PAGE, {
-    variables: {
-      account: account,
-    },
-  });
-
-  useEffect(() => {
-    if (dataCounting) {
-      setNotiNumber(_.get(dataCounting, "all_count.aggregate.count", 0));
-    }
-  }, [dataCounting]);
-
-  useEffect(() => {
-    onMessageListener()
-      .then((payload) => {
-        setNotiNumber(notiNumber + 1);
-      })
-      .catch((err) => console.log("failed: ", err));
-  });
-
-  const profileRef = useRef(null);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
-        setShowProfile(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [profileRef]);
-
   const handleLogout = () => {
-    setShowProfile(false);
-    setShowModal(false);
-    setAuth(false);
-    user.reset();
-    history.push("/login");
+    // setShowProfile(false);
+    // setShowModal(false);
+    // setAuth(false);
+    // user.reset();
+    // history.push("/login");
   };
 
   return (
@@ -184,17 +137,16 @@ const Layout = ({ searchText, setSearchText, auth, setAuth, children }) => {
                 <Grid item>
                   <Grid item container gap={4} alignItems='center'>
                     <Grid item>
-                      <IconButton onClick={() => history.push(slugs.notify)}>
+                      <IconButton onClick={() => history.push("/")}>
                         <Badge badgeContent={notiNumber} color='error'>
                           <NotificationsIcon />
                         </Badge>
                       </IconButton>
                     </Grid>
-                    <Grid item style={{ cursor: "pointer" }} ref={profileRef}>
+                    <Grid item style={{ cursor: "pointer" }}>
                       <Grid item position='relative'>
                         <Avatar
-                          alt={_.get(data, "results.full_name")}
-                          src={_.get(data, "results.avatar")}
+                          src={""}
                           sx={{ bgcolor: "#00837B" }}
                           onClick={() => setShowProfile(!showProfile)}
                         />
@@ -213,11 +165,7 @@ const Layout = ({ searchText, setSearchText, auth, setAuth, children }) => {
                                 borderBottom='1px solid #e2e1e1'
                               >
                                 <Grid item>
-                                  <Avatar
-                                    alt={_.get(data, "results.full_name")}
-                                    src={_.get(data, "results.avatar")}
-                                    sx={{ bgcolor: "#00837B" }}
-                                  />
+                                  <Avatar sx={{ bgcolor: "#00837B" }} />
                                 </Grid>
                                 <Grid item>
                                   <Grid item container direction='column'>
@@ -230,7 +178,6 @@ const Layout = ({ searchText, setSearchText, auth, setAuth, children }) => {
                                         )}
                                       >
                                         {" "}
-                                        {_.get(data, "results.full_name")}
                                       </Typography>
                                     </Grid>
                                     <Grid item>
@@ -242,7 +189,7 @@ const Layout = ({ searchText, setSearchText, auth, setAuth, children }) => {
                                         )}
                                         fontSize={14}
                                       >
-                                        {_.get(data, "results.email")}
+                                        {/* {_.get(data, "results.email")} */}
                                       </Typography>
                                     </Grid>
                                   </Grid>
@@ -254,8 +201,9 @@ const Layout = ({ searchText, setSearchText, auth, setAuth, children }) => {
                                 alignItems='center'
                                 gap={4}
                                 className={classes.rowItem}
-                                onClick={() =>
-                                  history.push(slugs.changePassword)
+                                onClick={
+                                  () => {}
+                                  // history.push(slugs.changePassword)
                                 }
                               >
                                 <LockIcon
@@ -306,13 +254,13 @@ const Layout = ({ searchText, setSearchText, auth, setAuth, children }) => {
               </Grid>
             </Toolbar>
 
-            <ConfirmModal
+            {/* <ConfirmModal
               showModal={showModal}
               setShowModal={setShowModal}
               onConfirm={handleLogout}
               title='Đổi mật khẩu'
               subTitle='Bạn muốn đổi mật khẩu'
-            />
+            /> */}
 
             {/* <Dialog
               open={showModal}
@@ -380,7 +328,9 @@ const Layout = ({ searchText, setSearchText, auth, setAuth, children }) => {
             paddingBottom: "80px",
           }}
         >
-          <Grid container>{children}</Grid>
+          <Grid container padding='20px'>
+            {children}
+          </Grid>
         </Box>
       </Box>
     </Fragment>

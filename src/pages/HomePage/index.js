@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import bkuLogo from "../../assets/image/bku.png";
+import cyberLogo from "../../assets/image/cyberlogo.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { enrolmentsApi } from "app/reducers/enrolmentsReducer";
@@ -13,21 +13,24 @@ const HomePage = () => {
     }
   }, [userInfo]);
   return (
-    <section className="home">
-      <div className="content">
-        <h3>Chào mừng đến hệ thống BKELEARNING V2</h3>
+    <section className='home'>
+      <div className='content'>
+        <h3>Chào mừng đến hệ thống CyberCenter</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia
-          repellat aperiam libero, beatae debitis iusto quia sit aliquid placeat
-          facilis?
+          Là một trung tâm lâu đời đào tạo kỹ thuật tại TPHCM với hàng chục
+          nghìn học viên hàng năm
         </p>
-        <Link to="/course" className="btn">
+        <Link to='/course' className='btn'>
           {" "}
           Đến khóa học
         </Link>
       </div>
-      <div className="image">
-        <img src={bkuLogo} alt />
+      <div className='image'>
+        <img
+          src={cyberLogo}
+          alt='CYBER LOGO'
+          style={{ height: "300px", width: "500px" }}
+        />
       </div>
     </section>
   );

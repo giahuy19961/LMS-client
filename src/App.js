@@ -4,26 +4,32 @@ import { Route, Switch } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import ContactPage from "./pages/ContactPage";
-import PrivateRoute from "./routes/PrivateRoute";
+import PrivateRoute, { AdminRoute } from "./routes/PrivateRoute";
 import ResignPage from "./pages/Course";
 import DefaultLayout from "./layout/defaultLayout";
 import SchoolFeePage from "./pages/SchoolFeePage";
 import CoursePage from "./pages/Course";
 import NotFound from "./components/NotFound";
 import UserPage from "pages/UserPage";
+import Dashboard from "pages/Admin";
+import Layout from "Layouts";
+import Students from "pages/Admin/Students";
+import { slugs } from "constants/slugs";
+import Teachers from "pages/Admin/Teachers";
+import Courses from "pages/Admin/Courses";
 
 function App() {
   return (
     <Switch>
       <Route
-        path="/login"
-        exact="false"
-        render={() => <AuthPage type="login" />}
+        path='/login'
+        exact='false'
+        render={() => <AuthPage type='login' />}
       />
 
       <Route
-        path="/"
-        exact="false"
+        path='/'
+        exact='false'
         render={() => (
           <DefaultLayout>
             <HomePage />
@@ -31,13 +37,13 @@ function App() {
         )}
       />
 
-      {/* <Route
+      <Route
         path='/register'
         exact='false'
         render={() => <AuthPage type='register' />}
-      /> */}
+      />
       <Route
-        path="/contact"
+        path='/contact'
         render={() => (
           <DefaultLayout>
             <ContactPage />
@@ -45,7 +51,7 @@ function App() {
         )}
       />
       <PrivateRoute
-        path="/course"
+        path='/course'
         render={() => (
           <DefaultLayout>
             <CoursePage />
@@ -53,8 +59,8 @@ function App() {
         )}
       />
       <PrivateRoute
-        path="/course/resign"
-        exact="false"
+        path='/course/resign'
+        exact='false'
         render={() => (
           <DefaultLayout>
             <ResignPage />
@@ -62,8 +68,8 @@ function App() {
         )}
       />
       <PrivateRoute
-        path="/fee"
-        exact="false"
+        path='/fee'
+        exact='false'
         render={() => (
           <DefaultLayout>
             <SchoolFeePage />
@@ -73,7 +79,7 @@ function App() {
 
       {/* Userpages */}
       <PrivateRoute
-        path="/me"
+        path='/me'
         exact={false}
         render={() => (
           <DefaultLayout>
@@ -81,7 +87,43 @@ function App() {
           </DefaultLayout>
         )}
       />
-      <Route path="*" component={NotFound} />
+      <AdminRoute
+        path='/dashboard'
+        exact={true}
+        render={() => (
+          <Layout>
+            <Dashboard />
+          </Layout>
+        )}
+      />
+      <AdminRoute
+        path={slugs.adminStudent}
+        exact={true}
+        render={() => (
+          <Layout>
+            <Students />
+          </Layout>
+        )}
+      />
+      <AdminRoute
+        path={slugs.adminTeacher}
+        exact={true}
+        render={() => (
+          <Layout>
+            <Teachers />
+          </Layout>
+        )}
+      />
+      <AdminRoute
+        path={slugs.adminCourse}
+        exact={true}
+        render={() => (
+          <Layout>
+            <Courses />
+          </Layout>
+        )}
+      />
+      <Route path='*' component={NotFound} />
     </Switch>
   );
 }

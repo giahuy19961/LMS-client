@@ -19,7 +19,7 @@ export const userLoginApi = createAsyncThunk(
 
       return response.data.data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error?.response?.data);
     }
   }
 );
@@ -55,9 +55,10 @@ const authSlice = createSlice({
       state.loading = false;
       swal({
         title:
-          (action.error.message === "Unauthorized" ||
-            action.error.message === "Rejected") &&
-          "Username or Password is invalid",
+          // (action.error.message === "Unauthorized" ||
+          //   action.error.message === "Rejected") &&
+          // "Username or Password is invalid",
+          action.payload.message,
         icon: "error",
       });
       state.error = action.payload;

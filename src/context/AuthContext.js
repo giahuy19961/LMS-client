@@ -1,13 +1,19 @@
 import { createContext, useEffect, useState } from "react";
-import { authService } from "services";
+import { useSelector } from "react-redux";
+import { userService } from "services";
+
+export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
-  const token = localStorage.getItem("access_token");
+  const { token, loading } = useSelector((state) => state.authReducer);
 
-  const [value, setValue] = useState();
+  const [context, setValueContext] = useState();
+
   const fetchInfoUser = async (token) => {
     try {
-      const response = await authService.getLoginInfoApi(token);
+      const response = await userService.getInfo(token);
+      console.log(response);
+      setValueContext({ ...context, userInfo: response.data.data.info });
     } catch (error) {
       console.log(error);
     }
@@ -16,9 +22,13 @@ const AuthContextProvider = ({ children }) => {
     if (token) {
       fetchInfoUser(token);
     }
-  });
-  const AuthContext = createContext();
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ context, setValueContext }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthContextProvider;

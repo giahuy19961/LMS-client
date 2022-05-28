@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import { InputBase, IconButton } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
-import { useDebounce } from "use-debounce";
+// import { useDebounce } from "use-debounce";
 
 const SearchText = ({
   searchText,
@@ -10,11 +10,11 @@ const SearchText = ({
   placeholder = "Tìm kiếm...",
 }) => {
   const [text, setText] = useState("");
-  const [value] = useDebounce(text, 1000);
+  // const [value] = useDebounce(text, 1000);
 
-  useEffect(() => {
-    setSearchText(value);
-  }, [value]);
+  // useEffect(() => {
+  //   setSearchText(value);
+  // }, [value]);
 
   return (
     <Paper

@@ -9,7 +9,7 @@ const Header = ({ userInfo }) => {
   return (
     <header>
       <a href='#' class='logo'>
-        BKU<span>University</span>Demo
+        Cyber<span>Center</span>
       </a>
 
       <div id='menu' class='fas fa-bars'></div>
@@ -33,7 +33,10 @@ const Header = ({ userInfo }) => {
             />
           </div>
         ) : (
-          <Link to='/login'>Đăng nhập</Link>
+          <>
+            <Link to='/login'>Đăng nhập</Link>
+            <Link to='/register'>Đăng ký</Link>
+          </>
         )}
       </nav>
     </header>

@@ -24,13 +24,14 @@ import { Redirect } from "react-router";
 // } from "../../firebase/services/email";
 // import { user } from "../../constants/user";
 import { useHistory } from "react-router-dom";
-import logo from "../../assets/image/bku.png";
+import logo from "../../assets/image/cyberlogo.png";
 import swal from "sweetalert";
 import * as _ from "lodash";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import { useDispatch } from "react-redux";
 import { userLoginApi } from "app/reducers/authReducer";
+import { authService } from "services";
 
 const useStyles = makeStyles(() => ({
   wrapper: {
@@ -79,10 +80,26 @@ const AuthPage = ({ type }) => {
   // const router = useHistory();
   const history = useHistory();
 
+  const registerUser = async ({ username, password, email }) => {
+    try {
+      const resp = await authService.registerApi({ username, password, email });
+      if (resp) return swal({ title: "Create successfully", icon: "success" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onSubmit = (data) => {
     console.log(data);
     if (type === "login") {
       dispatch(userLoginApi({ ...data, history }));
+    } else {
+      let registerData = {
+        username: data.username,
+        password: data.password,
+        email: data.email,
+      };
+      registerUser(registerData);
     }
   };
 
@@ -119,8 +136,8 @@ const AuthPage = ({ type }) => {
             style={{
               position: "absolute",
               top: 45,
-              width: 70,
-              height: 70,
+              width: 150,
+              height: 150,
               cursor: "pointer",
             }}
             onClick={() => {
@@ -137,7 +154,7 @@ const AuthPage = ({ type }) => {
               maxWidth: "40%",
             }}
           >
-            Chào mừng đến BKEL V2
+            Chào mừng đến CyberLearning
           </Typography>
         </Grid>
         <Grid item container alignItems='center' xs={6}>

@@ -25,12 +25,12 @@ import {
   ExitToApp as ExitToAppIcon,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-import slugs from "../constants/slugs";
-import logo from "../assets/logo-ecoe-inline.svg";
+import logo from "../assets/image/cyberlogo.png";
+
 import swal from "sweetalert";
+import { slugs } from "constants/slugs";
 // import { user } from "../constants/user";
 // import { useMutation } from "@apollo/client";
-import { DELETE_DEVICE_BY_ACCOUNT } from "../graphql/schemas/notification/notifyMutation";
 
 const DrawerCustom = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -115,41 +115,50 @@ const MainMenu = ({ drawerWidth, open, toggleDrawer, setAuth }) => {
       link: `${slugs.home}`,
       exact: true,
     },
+
+    // {
+    //   id: 3,
+    //   name: "Quản lý khách hàng",
+    //   icon: <AccountBalanceWalletIcon />,
+    //   // link: `${slugs.customer}`,
+    //   exact: false,
+    // },
     {
       id: 2,
-      name: "Quản lý sản phẩm",
-      icon: <MonetizationOnIcon />,
-      link: `${slugs.product}`,
+      name: "Quản lý khóa học",
+      icon: <VerifiedIcon />,
+      link: `${slugs.adminCourse}`,
       exact: false,
     },
     {
       id: 3,
-      name: "Quản lý khách hàng",
-      icon: <AccountBalanceWalletIcon />,
-      link: `${slugs.customer}`,
+      name: "Quản lý sinh viên",
+      icon: <SupervisorAccountIcon />,
+      link: `${slugs.adminStudent}`,
       exact: false,
     },
     {
       id: 4,
-      name: "Quản lý nhân viên",
-      icon: <SupervisorAccountIcon />,
-      link: `${slugs.employee}`,
-      exact: false,
-    },
-    {
-      id: 5,
-      name: "Chương trình khuyến mãi",
-      icon: <VerifiedIcon />,
-      link: `${slugs.promotion}`,
-      exact: false,
-    },
-    {
-      id: 6,
-      name: "Quản lý khác",
+      name: "Quản lý giáo viên",
       icon: <EventNoteIcon />,
-      link: `${slugs.setting}`,
+      link: `${slugs.adminTeacher}`,
       exact: false,
     },
+    // {
+    //   id: 5,
+    //   name: "Quản lý doanh thu",
+    //   icon: <MonetizationOnIcon />,
+    //   link: `${slugs.adminSalary}`,
+    //   exact: false,
+    // },
+
+    // {
+    //   id: 6,
+    //   name: "Quản lý khác",
+    //   icon: <EventNoteIcon />,
+    //   // link: `${slugs.setting}`,
+    //   exact: false,
+    // },
     // {
     //   id: 7,
     //   name: "Đăng xuất",
@@ -191,7 +200,17 @@ const MainMenu = ({ drawerWidth, open, toggleDrawer, setAuth }) => {
       >
         {open ? (
           <Fragment>
-            <img src={logo} alt='ecoe' style={{ paddingLeft: "16px" }} />
+            <img
+              src={logo}
+              alt='cyberlearn'
+              style={{
+                // paddingLeft: "16px",
+                width: "60px",
+                height: "60px",
+                borderRadius: "50%",
+                margin: "20px",
+              }}
+            />
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon style={{ color: "#fff" }} />
             </IconButton>
@@ -268,7 +287,9 @@ const MainMenu = ({ drawerWidth, open, toggleDrawer, setAuth }) => {
                     textDecoration: "none",
                   }}
                 >
-                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemIcon style={{ marginRight: open ? "0px" : "40px" }}>
+                    {item.icon}
+                  </ListItemIcon>
                   <Typography
                     fontWeight={
                       _.get(

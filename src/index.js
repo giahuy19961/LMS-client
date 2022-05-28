@@ -8,14 +8,17 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
 import { CircularProgress, CssBaseline } from "@mui/material";
 import { PersistGate } from "redux-persist/lib/integration/react";
+import AuthContextProvider from "context/AuthContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Provider store={store}>
         <PersistGate loading={<CircularProgress />} persistor={persistor}>
-          <CssBaseline />
-          <App />
+          <AuthContextProvider>
+            <CssBaseline />
+            <App />
+          </AuthContextProvider>
         </PersistGate>
       </Provider>
     </Router>
