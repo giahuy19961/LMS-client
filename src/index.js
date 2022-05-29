@@ -9,19 +9,23 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { CircularProgress, CssBaseline } from "@mui/material";
 import { PersistGate } from "redux-persist/lib/integration/react";
 import AuthContextProvider from "context/AuthContext";
+import { ThemeProvider } from "@mui/material/node_modules/@mui/system";
+import theme from "styles/theme";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <Provider store={store}>
-        <PersistGate loading={<CircularProgress />} persistor={persistor}>
-          <AuthContextProvider>
-            <CssBaseline />
-            <App />
-          </AuthContextProvider>
-        </PersistGate>
-      </Provider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Provider store={store}>
+          <PersistGate loading={<CircularProgress />} persistor={persistor}>
+            <AuthContextProvider>
+              <CssBaseline />
+              <App />
+            </AuthContextProvider>
+          </PersistGate>
+        </Provider>
+      </Router>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

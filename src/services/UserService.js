@@ -12,4 +12,23 @@ export class UserService {
       headers: { Authorization: `Bearer ${token}` },
     });
   };
+
+  getStudents = (token) => {
+    return axios.get(`${process.env.REACT_APP_SERVER_RESIGN}/user/students`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  };
+
+  getTeachers = (token) => {
+    return axios.get(`${process.env.REACT_APP_SERVER_RESIGN}/user/teachers`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  };
+
+  unlockUser = (data) => {
+    return axios.put(
+      `${process.env.REACT_APP_SERVER_RESIGN}/user/unlock`,
+      data
+    );
+  };
 }

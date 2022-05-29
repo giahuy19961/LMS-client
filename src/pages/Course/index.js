@@ -101,7 +101,7 @@ const CoursePage = () => {
     );
     if (isExistCourse) {
       swal({
-        title: "Khóa học này đã được đăng ký vui lòng chọn khóa khác",
+        title: "Bạn đã hoàn thành khóa học này vui lòng chọn khóa khác",
         icon: "error",
       });
     } else {
